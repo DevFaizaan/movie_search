@@ -1,0 +1,10 @@
+.cardSection {
+  display: flex;
+  padding-top: 2rem;
+  justify-content: space-between;
+}
+
+.FilmList {
+  display: flex;
+  justify-content: space-between;
+}

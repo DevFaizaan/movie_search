@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import FilmList from './FilmList';
 
 const FilmReq = () => {
-  const [data, setData] = useState('');
+  const [data, setData] = useState([]);
   const [filmTitle, setFilmTitle] = useState('');
 
   const updateTitle = (e) => {
@@ -10,30 +11,39 @@ const FilmReq = () => {
     setFilmTitle(e.target.value);
   };
 
-  const makeRequest = (e) => {
-    axios
-      .get('http://www.omdbapi.com/?apikey=24248959&t=' + filmTitle)
-      .then((response) => {
-        console.log(response.data);
-        setData(response.data);
-      });
+  const makeRequest = async () => {
+    try {
+      const res = await axios.get(
+        `http://www.omdbapi.com/?apikey=24248959&s=${filmTitle}`
+      );
+      setData(res.data.Search);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
     <>
       <div>
-        <h2>FilmRequest.js</h2>
-        <p>Enter the name of the film you are searching for here</p>
-        <input type='text' onChange={(e) => updateTitle(e)} />
-        <button onClick={(e) => makeRequest(e)}>Search Moive</button>
-
-        <h4>Title: {data.Title}</h4>
-        <h4>Year Released: {data.Year}</h4>
-        <h4>Rating: {data.Rated}</h4>
-        <h4>Genre: {data.Genre}</h4>
-        <h4>Plot: {data.Plot}</h4>
-        <h4>Runtime: {data.Runtime}</h4>
-        <img src={data.Poster} alt='The poster'></img>
+        <h2 className='RequestHeader'>Film Request</h2>
+        <input
+          className='RequestInput'
+          type='text'
+          placeholder='Search movie title here...'
+          onChange={(e) => updateTitle(e)}
+        />
+        <button
+          className='RequestBtn'
+          type='button'
+          onClick={() => makeRequest()}
+        >
+          Search
+        </button>
+        {data.length === 0 ? (
+          <p>Search for your favourite movies</p>
+        ) : (
+          <FilmList data={data} />
+        )}
       </div>
     </>
   );

@@ -1,16 +1,19 @@
 import './App.css';
-import Film from './component/FilmRequest';
-import Homepage from './component/Homepage';
+import FilmRequest from './component/FilmRequest';
 import Contact from './component/Contact';
 import User from './component/User';
+import Details from './component/Details';
 import { BrowserRouter, Link, Route, Routes, Router } from 'react-router-dom';
+import ColorSchemesExample from './component/Navbar';
 
 function App() {
   return (
     <div className='App'>
       <BrowserRouter>
-        <nav>
-          <div className='navContainer'>
+        <ColorSchemesExample />
+        <FilmRequest />
+        {/* <Film /> */}
+        {/* <div className='navContainer'>
             <ul>
               <li>
                 <Link to='/'>Home</Link>
@@ -22,13 +25,13 @@ function App() {
                 <Link to='/Contact'>Contact</Link>
               </li>
             </ul>
-          </div>
-        </nav>
+          </div> */}
         <Routes>
-          <Route path='/' element={<Homepage />} />
           <Route path='/User/:id' element={<User />} />
-          <Route path='/User' element={<User />} />
-          <Route path='/Contact' element={<Contact />} />
+          <Route exact path='/User' element={<User />} />
+          <Route exact path='/Contact' element={<Contact />} />
+          <Route exact path='/FilmRequest' element={<FilmRequest />} />
+          <Route path='/details/:imdbID' element={<Details />} />
         </Routes>
       </BrowserRouter>
     </div>
